@@ -1,27 +1,38 @@
 var port = Number(process.env.PORT || 8080);
 var express = require('express');
+var request = require('superagent');
+var templates = require('./lib/templates');
 var app = express();
+var api = 'http' + (port === 8080 ? '://localhost:3000' : 's://offline-news-api.herokuapp.com') + '/stories';
+
 
 app.use(express.static(__dirname+'/public'));
 
 app.get('/offline.appcache', function(req, res) {
-  res.set('Content-Type', 'text/cache-manifest');
-  res.send('CACHE MANIFEST'
-    + '\n./styles.css'
-    + '\n./indexeddb.shim.min.js'
-    + '\n./promise.js'
-    + '\n./superagent.js'
-    + '\n./application.js'
-    + '\n'
-    + '\nFALLBACK:'
-    + '\n/ /'
-    + '\n'
-    + '\nNETWORK:'
-    + '\n*');
+  res.send(templates.manifest());
 });
 
-app.get(/^\//, function(req, res) {
-  res.sendFile('public/index.html', { root: __dirname });
+app.get('/fallback.html', function(req, res) {
+  res.send(templates.shell());
+});
+
+// TODO: Add middlewear to send this when the appcache update cookie is set
+  //res.sendFile('public/index.html', { root: __dirname });
+
+app.get(/^\/(.+)/, function(req, res) {
+  request.get(api+req.originalUrl)
+    .end(function(err, data) {
+      if (err) res.status(404).end();
+      else res.send(templates.article(data.body));
+    });
+});
+
+app.get('/', function(req, res) {
+  request.get(api)
+    .end(function(err, data) {
+      if (err) res.status(404).end();
+      else res.send(templates.list(data.body));
+    });
 });
 
 app.listen(port);

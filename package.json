@@ -21,7 +21,8 @@
   "homepage": "https://github.com/matthew-andrews/offline-news",
   "private": true,
   "dependencies": {
-    "express": "^4.8.7"
+    "express": "^4.8.7",
+    "superagent": "^0.18.2"
   },
   "devDependencies": {
     "jshint": "^2.5.5",

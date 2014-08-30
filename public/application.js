@@ -8,8 +8,10 @@
       main = document.querySelector('main');
       document.body.addEventListener('click', onClick);
       window.addEventListener('popstate', refreshView);
+
+      // Only refresh the view if the view is empty
+      if (main.innerHTML === '') return refreshView();
     })
-    .then(refreshView)
     .then(synchronize);
 
   function onClick(e) {
@@ -40,7 +42,7 @@
   }
 
   function renderOneStory(story) {
-    if (!story) story = { title: '', body: '' };
+    if (!story) story = { title: 'Story cannot be found', body: '<p>Please try another</p>' };
     main.innerHTML = '<nav><a class="js-link" href="/">&raquo; Back to FT Tech Blog</a></nav><h1>'+story.title+'</h1>'+story.body;
   }
 
@@ -69,9 +71,11 @@
         return promises;
       })
 
-      // Only refresh the view if it's listing page
-      .then(function() {
-        if ((location.pathname+location.search) === '/') {
+      // Only refresh the view if it's listing page and the items have changed
+      // which we will determine if any of the results are not undefined
+      .then(function(results) {
+        var path = location.pathname+location.search;
+        if (!results.every(function(item) { return item === undefined }) && path === '/') {
           return refreshView();
         }
       })
