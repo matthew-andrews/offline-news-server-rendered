@@ -7,20 +7,17 @@ body {
   box-sizing: border-box;
 }
 h1 {
-  padding: 18px 20px;
-  margin: 0;
+  padding: 14px 0 14px 0;
+  margin: 0 0 14px 0;
   font-size: 44px;
   border-bottom: solid 1px #DDD;
   line-height: 1em;
 }
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+nav {
+  padding: 14px 0 14px 0;
 }
-li {
-  padding: 20px;
-  border-bottom: solid 1px #DDD;
+main {
+  padding: 0 14px;
 }
 
 /**
@@ -30,8 +27,8 @@ li {
 .brandrews {
   float: right;
   margin-top: 30px;
-  margin-right: 20px;
-  line-height: 20px;
+  margin-right: 14px;
+  line-height: 14px;
   font-size: 90%;
   color: #999;
 }
