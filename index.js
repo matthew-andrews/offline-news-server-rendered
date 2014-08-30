@@ -32,8 +32,15 @@ app.get('/fallback.html', function(req, res) {
 app.get('/tech-blog', function(req, res) {
   request.get(api+req.originalUrl)
     .end(function(err, data) {
-      if (err || !data.ok) res.status(404).end();
-      else res.send(templates.article(data.body));
+      if (err || !data.ok) {
+        res.status(404);
+        res.send(templates.article({
+          title: 'Story cannot be found',
+          body: '<p>Please try another</p>'
+        }));
+      } else {
+        res.send(templates.article(data.body));
+      }
     });
 });
 
