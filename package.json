@@ -2,7 +2,7 @@
   "name": "offline-news",
   "version": "0.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "npm run jshint && npm run lintspaces",
     "jshint": "jshint `npm run -s js-files`",

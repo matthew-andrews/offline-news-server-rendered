@@ -1,3 +1,4 @@
+var port = Number(process.env.PORT || 8080);
 var express = require('express');
 var app = express();
 
@@ -7,4 +8,5 @@ app.get(/^\//, function(req, res) {
   res.sendFile('public/index.html', { root: __dirname });
 });
 
-app.listen(8080);
+app.listen(port);
+console.log('listening on '+port);
