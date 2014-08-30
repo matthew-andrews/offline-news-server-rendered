@@ -3,8 +3,7 @@
 
   var ul, h1;
 
-  ul = document.querySelector('ul');
-  h1 = document.querySelector('h1');
+  main = document.querySelector('main');
   refreshView();
   document.body.addEventListener('click', onClick);
   window.addEventListener('popstate', refreshView);
@@ -29,22 +28,16 @@
 
   function renderAllStories(stories) {
     if (!stories) stories = [];
-    var html = '';
+    var ul = '';
     stories.forEach(function(story) {
-      html += storyToHtml(story);
+      ul += '<li><a class="js-link" href="/'+story.guid+'">'+story.title+'</a></li>';
     });
-    ul.innerHTML = html;
-    h1.innerHTML = 'FT Tech News';
+    main.innerHTML = '<h1>FT Tech Blog</h1><ul>'+ul+'</ul>';
   }
 
   function renderOneStory(story) {
-    if (!story) story = {};
-    h1.innerHTML = story.title;
-    ul.innerHTML = '<li>'+story.body+'</li>';
-  }
-
-  function storyToHtml(story) {
-    return '<li><a class="js-link" href="/'+story.guid+'">'+story.title+'</a></li>';
+    if (!story) story = { title: '', body: '' };
+    main.innerHTML = '<h1>'+story.title+'</h1>'+story.body;
   }
 
   function serverStoriesGet(_id) {
