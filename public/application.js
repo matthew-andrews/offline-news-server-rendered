@@ -41,7 +41,7 @@
 
   function renderOneStory(story) {
     if (!story) story = { title: '', body: '' };
-    main.innerHTML = '<nav><a class="js-link" href="/">&raquo; Back to <em>FT Tech Blog</em></a></nav><h1>'+story.title+'</h1>'+story.body;
+    main.innerHTML = '<nav><a class="js-link" href="/">&raquo; Back to FT Tech Blog</a></nav><h1>'+story.title+'</h1>'+story.body;
   }
 
   function synchronize() {
