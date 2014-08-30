@@ -15,3 +15,9 @@ git clone git@github.com:matthew-andrews/offline-news-server-rendered.git
 npm install
 node index.js
 ```
+
+### Overview
+
+- [Client side application logic](./blob/master/public/application.js)
+- [Client side AppCache hacks](./blob/master/public/appcache.js
+- [Server (express) logic](./blob/master/index.js)
