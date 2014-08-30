@@ -33,17 +33,12 @@
   }
 
   function renderAllStories(stories) {
-    if (!stories) stories = [];
-    var ul = '';
-    stories.forEach(function(story) {
-      ul += '<li><a class="js-link" href="/'+story.guid+'">'+story.title+'</a></li>';
-    });
-    main.innerHTML = '<h1>FT Tech Blog</h1><ul>'+ul+'</ul>';
+    main.innerHTML = templates.list(stories);
   }
 
   function renderOneStory(story) {
     if (!story) story = { title: 'Story cannot be found', body: '<p>Please try another</p>' };
-    main.innerHTML = '<nav><a class="js-link" href="/">&raquo; Back to FT Tech Blog</a></nav><h1>'+story.title+'</h1>'+story.body;
+    main.innerHTML = templates.article(story);
   }
 
   function synchronize() {
