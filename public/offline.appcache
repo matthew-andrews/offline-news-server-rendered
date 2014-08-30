@@ -5,5 +5,8 @@ CACHE MANIFEST
 ./superagent.js
 ./application.js
 
+FALLBACK:
+/ /
+
 NETWORK:
 *
