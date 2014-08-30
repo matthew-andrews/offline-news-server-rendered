@@ -3,7 +3,7 @@ var api = 'http' + (port === 8080 ? '://localhost:3000' : 's://offline-news-api.
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var request = require('superagent');
-var templates = require('./lib/templates');
+var templates = require('./public/templates');
 
 var app = express();
 app.use(cookieParser());
@@ -13,7 +13,20 @@ app.use(express.static(__dirname+'/public'));
 app.get('/offline.appcache', function(req, res) {
   if (req.cookies.up) {
     res.set('Content-Type', 'text/cache-manifest');
-    res.send(templates.manifest());
+    res.send('CACHE MANIFEST'
+      + '\n./styles.css'
+      + '\n./indexeddb.shim.min.js'
+      + '\n./promise.js'
+      + '\n./superagent.js'
+      + '\n./application.js'
+      + '\n./appcache.js'
+      + '\n./templates.js'
+      + '\n'
+      + '\nFALLBACK:'
+      + '\n/ /'
+      + '\n'
+      + '\nNETWORK:'
+      + '\n*');
   } else {
     res.status(400).end();
   }
@@ -21,12 +34,12 @@ app.get('/offline.appcache', function(req, res) {
 
 // Add middleware to send this when the appcache update cookie is set
 app.get(/^\//, function(req, res, next) {
-  if (req.cookies.up) res.send(templates.shell());
+  if (req.cookies.up) res.send(layoutShell());
   else next();
 });
 
 app.get('/fallback.html', function(req, res) {
-  res.send(templates.shell());
+  res.send(layoutShell());
 });
 
 app.get('/tech-blog', function(req, res) {
@@ -34,12 +47,16 @@ app.get('/tech-blog', function(req, res) {
     .end(function(err, data) {
       if (err || !data.ok) {
         res.status(404);
-        res.send(templates.article({
-          title: 'Story cannot be found',
-          body: '<p>Please try another</p>'
+        res.send(layoutShell({
+          main: templates.article({
+            title: 'Story cannot be found',
+            body: '<p>Please try another</p>'
+          })
         }));
       } else {
-        res.send(templates.article(data.body));
+        res.send(layoutShell({
+          main: templates.article(data.body)
+        }));
       }
     });
 });
@@ -47,10 +64,47 @@ app.get('/tech-blog', function(req, res) {
 app.get('/', function(req, res) {
   request.get(api)
     .end(function(err, data) {
-      if (err) res.status(404).end();
-      else res.send(templates.list(data.body));
+      if (err) {
+        res.status(404).end();
+      } else {
+        res.send(layoutShell({
+          main: templates.list(data.body)
+        }));
+      }
     });
 });
 
 app.listen(port);
 console.log('listening on '+port);
+
+function layoutShell(data) {
+  data = {
+    title: data && data.title || 'FT Tech News',
+    main: data && data.main || ''
+  };
+  return '<!DOCTYPE html>'
+    + '<html>'
+    + '  <head>'
+    + '    <title>'+data.title+'</title>'
+    + '    <link rel="stylesheet" href="/styles.css" type="text/css" media="all" />'
+    + '  </head>'
+    + '  <body>'
+    + '    <div class="brandrews"><a href="https://mattandre.ws">mattandre.ws</a> | <a href="https://twitter.com/andrewsmatt">@andrewsmatt</a></div>'
+    + '    <main>'+data.main+'</main>'
+    + '    <script src="/indexeddb.shim.min.js"></script>'
+    + '    <script src="/superagent.js"></script>'
+    + '    <script src="/promise.js"></script>'
+    + '    <script src="/templates.js"></script>'
+    + '    <script src="/application.js"></script>'
+    + '    <script src="/appcache.js"></script>'
+    + '    <script>'
+    + '      (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){'
+    + '      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),'
+    + '      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)'
+    + '      })(window,document,\'script\',\'//www.google-analytics.com/analytics.js\',\'ga\');'
+    + '      ga(\'create\', \'UA-34192510-7\', \'auto\');'
+    + '      ga(\'send\', \'pageview\');'
+    + '    </script>'
+    + '  </body>'
+    + '</html>';
+}
