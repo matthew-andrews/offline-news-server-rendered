@@ -1,7 +1,7 @@
 (function() {
   var api = 'http' + (location.hostname === 'localhost' ? '://localhost:3000' : 's://offline-news-api.herokuapp.com') + '/stories';
   var synchronizeInProgress;
-  var db, ul, h1;
+  var db, main;
 
   databaseOpen()
     .then(function() {
@@ -152,7 +152,8 @@
     });
   }
 
-  function serverStoriesGet(guid) { return new Promise(function(resolve, reject) {
+  function serverStoriesGet(guid) {
+    return new Promise(function(resolve, reject) {
       superagent.get(api+'/' + (guid ? guid : ''))
         .end(function(err, res) {
           if (!err && res.ok) resolve(res.body);
