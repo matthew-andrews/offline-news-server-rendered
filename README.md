@@ -1,4 +1,4 @@
-# Offline news - server rendered [ ![Codeship Status for matthew-andrews/offline-news-server-rendered](https://codeship.io/projects/8397dcc0-129c-0132-6986-7e4352749945/status)](https://codeship.io/projects/33244)
+# Offline news - server rendered with *AppCache* [ ![Codeship Status for matthew-andrews/offline-news-server-rendered](https://codeship.io/projects/8397dcc0-129c-0132-6986-7e4352749945/status)](https://codeship.io/projects/33244)
 
 https://offline-news-server-rendered.herokuapp.com
 
