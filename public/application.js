@@ -71,11 +71,9 @@
         return promises;
       })
 
-      // Only refresh the view if it's listing page and the items have changed
-      // which we will determine if any of the results are not undefined
+      // Only refresh the view if it's listing page
       .then(function(results) {
-        var path = location.pathname+location.search;
-        if (!results.every(function(item) { return item === undefined; }) && path === '/') {
+        if (location.pathname+location.search === '/') {
           return refreshView();
         }
       })
