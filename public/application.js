@@ -75,7 +75,7 @@
       // which we will determine if any of the results are not undefined
       .then(function(results) {
         var path = location.pathname+location.search;
-        if (!results.every(function(item) { return item === undefined }) && path === '/') {
+        if (!results.every(function(item) { return item === undefined; }) && path === '/') {
           return refreshView();
         }
       })
