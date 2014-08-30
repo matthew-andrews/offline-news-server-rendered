@@ -3,10 +3,13 @@
 
   var ul, h1;
 
-  main = document.querySelector('main');
-  refreshView();
-  document.body.addEventListener('click', onClick);
-  window.addEventListener('popstate', refreshView);
+  databaseOpen()
+    .then(function() {
+      main = document.querySelector('main');
+      document.body.addEventListener('click', onClick);
+      window.addEventListener('popstate', refreshView);
+    })
+    .then(refreshView);
 
   function onClick(e) {
     if (e.target.classList.contains('js-link')) {
@@ -40,9 +43,26 @@
     main.innerHTML = '<h1>'+story.title+'</h1>'+story.body;
   }
 
-  function serverStoriesGet(_id) {
+  function databaseOpen() {
     return new Promise(function(resolve, reject) {
-      superagent.get(api+'/' + (_id ? _id : ''))
+      var version = 1;
+      var request = indexedDB.open('news', version);
+      request.onupgradeneeded = function(e) {
+        db = e.target.result;
+        e.target.transaction.onerror = reject;
+        db.createObjectStore('news', { keyPath: 'guid' });
+      };
+      request.onsuccess = function(e) {
+        db = e.target.result;
+        resolve();
+      };
+      request.onerror = reject;
+    });
+  }
+
+  function serverStoriesGet(guid) {
+    return new Promise(function(resolve, reject) {
+      superagent.get(api+'/' + (guid ? guid : ''))
         .end(function(err, res) {
           if (!err && res.ok) resolve(res.body);
           else reject(res);
