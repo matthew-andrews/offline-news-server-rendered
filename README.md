@@ -19,5 +19,5 @@ node index.js
 ### Overview
 
 - [Client side application logic](./public/application.js)
-- [Client side AppCache hacks](./public/appcache.js
+- [Client side AppCache hacks](./public/appcache.js)
 - [Server (express) logic](./index.js)
