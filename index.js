@@ -29,7 +29,7 @@ app.get('/fallback.html', function(req, res) {
   res.send(templates.shell());
 });
 
-app.get(/^\/(.+)/, function(req, res) {
+app.get(/^tech-blog/, function(req, res) {
   request.get(api+req.originalUrl)
     .end(function(err, data) {
       if (err) res.status(404).end();
