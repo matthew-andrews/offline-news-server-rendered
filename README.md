@@ -4,7 +4,7 @@ https://offline-news-server-rendered.herokuapp.com
 
 ### Prerequisites
 
-UNIX-like laptop running node (would happily accept pull requests to fix it for Windows but I don't have the means to test that here).
+UNIX-like computer running node (would happily accept pull requests to fix it for Windows but I don't have the means to test that here).
 
 Install a copy of **[offline-news-api](https://github.com/matthew-andrews/offline-news-api)** and run locally (follow instructions on that repository).
 
