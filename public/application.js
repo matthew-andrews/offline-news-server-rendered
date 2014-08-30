@@ -68,10 +68,16 @@
 
         return promises;
       })
+
+      // Only refresh the view if it's listing page
+      .then(function() {
+        if ((location.pathname+location.search) === '/') {
+          return refreshView();
+        }
+      })
       .then(function() {
         synchronizeInProgress = undefined;
-      })
-      .then(refreshView);
+      });
   }
 
   function arrayContainsStory(array, story) {
