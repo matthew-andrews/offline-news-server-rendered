@@ -5,6 +5,14 @@
 
   ul = document.querySelector('ul');
   refreshView();
+  document.body.addEventListener('click', onClick);
+
+  function onClick(e) {
+    e.preventDefault();
+    if (e.target.tagName.toLowerCase() === 'a') {
+      history.pushState({}, '', e.target.getAttribute('href'));
+    }
+  }
 
   function refreshView() {
     return serverStoriesGet().then(renderAllStories);
@@ -19,7 +27,7 @@
   }
 
   function storyToHtml(story) {
-    return '<li><a href="./'+story.guid+'">'+story.title+'</a></li>';
+    return '<li><a href="/'+story.guid+'">'+story.title+'</a></li>';
   }
 
   function serverStoriesGet(_id) {
