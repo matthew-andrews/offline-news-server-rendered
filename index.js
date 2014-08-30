@@ -4,6 +4,22 @@ var app = express();
 
 app.use(express.static(__dirname+'/public'));
 
+app.get('/offline.appcache', function(req, res) {
+  res.set('Content-Type', 'text/cache-manifest');
+  res.send('CACHE MANIFEST'
+    + '\n./styles.css'
+    + '\n./indexeddb.shim.min.js'
+    + '\n./promise.js'
+    + '\n./superagent.js'
+    + '\n./application.js'
+    + '\n'
+    + '\nFALLBACK:'
+    + '\n/ /'
+    + '\n'
+    + '\nNETWORK:'
+    + '\n*');
+});
+
 app.get(/^\//, function(req, res) {
   res.sendFile('public/index.html', { root: __dirname });
 });
