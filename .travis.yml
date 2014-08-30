@@ -2,3 +2,11 @@ language: node_js
 node_js:
 - '0.11'
 - '0.10'
+deploy:
+  provider: heroku
+  api_key:
+    secure: T5Vi/x+hvlRDIshnpU5nCCs22d8fMVV73WIpXPUnpQU8FEAJy4pwxvysPO6vwHvvBhX/MOcL8GqJ7Nzb5eq6D0W4oAECEt0Rm+nyDor8rIjSEH+GupSZfDAOXrZfdRyGzXZhZKyIEEzSr8R2Qndfhd969T09QSSKKmVf+9bXvPE=
+  app: offline-news
+  on:
+    repo: matthew-andrews/offline-news
+    node: '0.10'
