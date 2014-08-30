@@ -1,33 +1,50 @@
 (function() {
   var api = 'http' + (location.hostname === 'localhost' ? '://localhost:3000' : 's://offline-news-api.herokuapp.com') + '/stories';
 
-  var ul;
+  var ul, h1;
 
   ul = document.querySelector('ul');
+  h1 = document.querySelector('h1');
   refreshView();
   document.body.addEventListener('click', onClick);
+  window.addEventListener('popstate', refreshView);
 
   function onClick(e) {
-    e.preventDefault();
-    if (e.target.tagName.toLowerCase() === 'a') {
+    if (e.target.classList.contains('js-link')) {
+      e.preventDefault();
       history.pushState({}, '', e.target.getAttribute('href'));
+      refreshView();
     }
   }
 
   function refreshView() {
-    return serverStoriesGet().then(renderAllStories);
+    var guid = (location.pathname+location.search).substring(1);
+    if (guid === '') {
+      renderAllStories();
+      return serverStoriesGet().then(renderAllStories);
+    }
+    renderOneStory();
+    return serverStoriesGet(guid).then(renderOneStory);
   }
 
   function renderAllStories(stories) {
+    if (!stories) stories = [];
     var html = '';
     stories.forEach(function(story) {
       html += storyToHtml(story);
     });
     ul.innerHTML = html;
+    h1.innerHTML = 'FT Tech News';
+  }
+
+  function renderOneStory(story) {
+    if (!story) story = {};
+    h1.innerHTML = story.title;
+    ul.innerHTML = '<li>'+story.body+'</li>';
   }
 
   function storyToHtml(story) {
-    return '<li><a href="/'+story.guid+'">'+story.title+'</a></li>';
+    return '<li><a class="js-link" href="/'+story.guid+'">'+story.title+'</a></li>';
   }
 
   function serverStoriesGet(_id) {
