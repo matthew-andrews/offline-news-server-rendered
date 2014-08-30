@@ -26,7 +26,7 @@
     return new Promise(function(resolve, reject) {
       superagent.get(api+'/' + (_id ? _id : ''))
         .end(function(err, res) {
-          if (!err && res.ok) resolve(res);
+          if (!err && res.ok) resolve(res.body);
           else reject(res);
         });
     });
