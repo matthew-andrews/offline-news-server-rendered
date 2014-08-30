@@ -18,6 +18,6 @@ node index.js
 
 ### Overview
 
-- [Client side application logic](./blob/master/public/application.js)
-- [Client side AppCache hacks](./blob/master/public/appcache.js
-- [Server (express) logic](./blob/master/index.js)
+- [Client side application logic](./public/application.js)
+- [Client side AppCache hacks](./public/appcache.js
+- [Server (express) logic](./index.js)
