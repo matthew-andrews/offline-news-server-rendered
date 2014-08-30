@@ -4,7 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run jshint && npm run lintspaces",
+    "jshint": "jshint `npm run -s js-files`",
+    "lintspaces": "lintspaces -n -t -d spaces -i js-comments -s 2 `npm run -s js-files`",
+    "js-files": "find . -name '*.js' ! -path './node_modules/*' ! -name 'superagent.js' ! -name 'promise.js' ! -name 'indexeddb.shim.min.js'"
   },
   "repository": {
     "type": "git",
@@ -19,5 +22,9 @@
   "private": true,
   "dependencies": {
     "express": "^4.8.7"
+  },
+  "devDependencies": {
+    "jshint": "^2.5.5",
+    "lintspaces-cli": "0.0.4"
   }
 }
