@@ -1,23 +1,33 @@
 var port = Number(process.env.PORT || 8080);
+var api = 'http' + (port === 8080 ? '://localhost:3000' : 's://offline-news-api.herokuapp.com') + '/stories';
 var express = require('express');
+var cookieParser = require('cookie-parser');
 var request = require('superagent');
 var templates = require('./lib/templates');
+
 var app = express();
-var api = 'http' + (port === 8080 ? '://localhost:3000' : 's://offline-news-api.herokuapp.com') + '/stories';
-
-
+app.use(cookieParser());
 app.use(express.static(__dirname+'/public'));
 
+// Manifest returns a 400 unless the AppCache cookie is set
 app.get('/offline.appcache', function(req, res) {
-  res.send(templates.manifest());
+  if (req.cookies.up) {
+    res.set('Content-Type', 'text/cache-manifest');
+    res.send(templates.manifest());
+  } else {
+    res.status(400).end();
+  }
+});
+
+// Add middleware to send this when the appcache update cookie is set
+app.get(/^\//, function(req, res, next) {
+  if (req.cookies.up) res.send(templates.shell());
+  else next();
 });
 
 app.get('/fallback.html', function(req, res) {
   res.send(templates.shell());
 });
-
-// TODO: Add middlewear to send this when the appcache update cookie is set
-  //res.sendFile('public/index.html', { root: __dirname });
 
 app.get(/^\/(.+)/, function(req, res) {
   request.get(api+req.originalUrl)
