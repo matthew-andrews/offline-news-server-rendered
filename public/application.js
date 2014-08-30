@@ -123,7 +123,11 @@
       var store = transaction.objectStore('stories');
 
       var keyRange = IDBKeyRange.lowerBound(0);
-      var cursorRequest = store.openCursor(keyRange);
+
+      // Using reverse direction because the index being sorted on
+      // ends with a numerical incrementing ID so to get newest news
+      // first you need to sort by largest first.
+      var cursorRequest = store.openCursor(keyRange, 'prev');
 
       var data = [];
       cursorRequest.onsuccess = function(e) {
