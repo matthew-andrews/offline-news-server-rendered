@@ -1,0 +1,23 @@
+{
+  "name": "offline-news",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/matthew-andrews/offline-news.git"
+  },
+  "author": "Matt Andrews <matt@mattandre.ws>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matthew-andrews/offline-news/issues"
+  },
+  "homepage": "https://github.com/matthew-andrews/offline-news",
+  "private": true,
+  "dependencies": {
+    "express": "^4.8.7"
+  }
+}
