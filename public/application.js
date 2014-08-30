@@ -9,8 +9,7 @@
       document.body.addEventListener('click', onClick);
       window.addEventListener('popstate', refreshView);
     })
-    .then(databaseStoriesGet)
-    .then(renderAllStories)
+    .then(refreshView)
     .then(synchronize);
 
   function onClick(e) {
