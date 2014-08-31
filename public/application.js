@@ -23,13 +23,13 @@
   }
 
   function refreshView() {
-    var guid = (location.pathname+location.search).substring(1);
-    if (guid === '') {
+    var guidMatches = location.pathname.match(/^\/article\/([0-9]+)/);
+    if (!guidMatches) {
       renderAllStories();
       return databaseStoriesGet().then(renderAllStories);
     }
     renderOneStory();
-    return databaseStoriesGetById(guid).then(renderOneStory);
+    return databaseStoriesGetById(guidMatches[1]).then(renderOneStory);
   }
 
   function renderAllStories(stories) {
@@ -68,7 +68,7 @@
 
       // Only refresh the view if it's listing page
       .then(function(results) {
-        if (location.pathname+location.search === '/') {
+        if (location.pathname === '/') {
           return refreshView();
         }
       })
