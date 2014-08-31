@@ -14,12 +14,13 @@ app.get('/offline.appcache', function(req, res) {
   if (req.cookies.up) {
     res.set('Content-Type', 'text/cache-manifest');
     res.send('CACHE MANIFEST'
-      + '\n./styles.css'
+      + '\n./appcache.js'
+      + '\n./application.js'
+      + '\n./iframe.js'
       + '\n./indexeddb.shim.min.js'
       + '\n./promise.js'
+      + '\n./styles.css'
       + '\n./superagent.js'
-      + '\n./application.js'
-      + '\n./appcache.js'
       + '\n./templates.js'
       + '\n'
       + '\nFALLBACK:'
@@ -33,17 +34,20 @@ app.get('/offline.appcache', function(req, res) {
 });
 
 // Add middleware to send this when the appcache update cookie is set
-app.get(/^\//, function(req, res, next) {
+app.get('/', offlineMiddleware);
+app.get('/article/:guid', offlineMiddleware);
+
+function offlineMiddleware(req, res, next) {
   if (req.cookies.up) res.send(layoutShell());
   else next();
-});
+}
 
 app.get('/fallback.html', function(req, res) {
   res.send(layoutShell());
 });
 
-app.get('/tech-blog', function(req, res) {
-  request.get(api+req.originalUrl)
+app.get('/article/:guid', function(req, res) {
+  request.get(api+'/'+req.params.guid)
     .end(function(err, data) {
       if (err || !data.ok) {
         res.status(404);
@@ -83,28 +87,28 @@ function layoutShell(data) {
     main: data && data.main || ''
   };
   return '<!DOCTYPE html>'
-    + '<html>'
-    + '  <head>'
-    + '    <title>'+data.title+'</title>'
-    + '    <link rel="stylesheet" href="/styles.css" type="text/css" media="all" />'
-    + '  </head>'
-    + '  <body>'
-    + '    <div class="brandrews"><a href="https://mattandre.ws">mattandre.ws</a> | <a href="https://twitter.com/andrewsmatt">@andrewsmatt</a></div>'
-    + '    <main>'+data.main+'</main>'
-    + '    <script src="/indexeddb.shim.min.js"></script>'
-    + '    <script src="/superagent.js"></script>'
-    + '    <script src="/promise.js"></script>'
-    + '    <script src="/templates.js"></script>'
-    + '    <script src="/application.js"></script>'
-    + '    <script src="/appcache.js"></script>'
-    + '    <script>'
-    + '      (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){'
-    + '      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),'
-    + '      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)'
-    + '      })(window,document,\'script\',\'//www.google-analytics.com/analytics.js\',\'ga\');'
-    + '      ga(\'create\', \'UA-34192510-7\', \'auto\');'
-    + '      ga(\'send\', \'pageview\');'
-    + '    </script>'
-    + '  </body>'
-    + '</html>';
+    + '\n<html>'
+    + '\n  <head>'
+    + '\n    <title>'+data.title+'</title>'
+    + '\n    <link rel="stylesheet" href="/styles.css" type="text/css" media="all" />'
+    + '\n  </head>'
+    + '\n  <body>'
+    + '\n    <div class="brandrews"><a href="https://mattandre.ws">mattandre.ws</a> | <a href="https://twitter.com/andrewsmatt">@andrewsmatt</a></div>'
+    + '\n    <main>'+data.main+'</main>'
+    + '\n    <script src="/indexeddb.shim.min.js"></script>'
+    + '\n    <script src="/superagent.js"></script>'
+    + '\n    <script src="/promise.js"></script>'
+    + '\n    <script src="/templates.js"></script>'
+    + '\n    <script src="/application.js"></script>'
+    + '\n    <script src="/appcache.js"></script>'
+    + '\n    <script>'
+    + '\n      (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){'
+    + '\n      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),'
+    + '\n      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)'
+    + '\n      })(window,document,\'script\',\'//www.google-analytics.com/analytics.js\',\'ga\');'
+    + '\n      ga(\'create\', \'UA-34192510-7\', \'auto\');'
+    + '\n      ga(\'send\', \'pageview\');'
+    + '\n    </script>'
+    + '\n  </body>'
+    + '\n</html>';
 }
