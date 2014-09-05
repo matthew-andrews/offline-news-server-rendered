@@ -19,6 +19,7 @@
       e.preventDefault();
       history.pushState({}, '', e.target.getAttribute('href'));
       refreshView();
+      ga('send', 'pageview', e.target.getAttribute('href'));
     }
   }
 

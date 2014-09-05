@@ -99,7 +99,6 @@ function layoutShell(data) {
     + '\n    <script src="/superagent.js"></script>'
     + '\n    <script src="/promise.js"></script>'
     + '\n    <script src="/templates.js"></script>'
-    + '\n    <script src="/application.js"></script>'
     + '\n    <script src="/appcache.js"></script>'
     + '\n    <script>'
     + '\n      (function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){'
@@ -109,6 +108,7 @@ function layoutShell(data) {
     + '\n      ga(\'create\', \'UA-34192510-7\', \'auto\');'
     + '\n      ga(\'send\', \'pageview\');'
     + '\n    </script>'
+    + '\n    <script src="/application.js"></script>'
     + '\n  </body>'
     + '\n</html>';
 }
