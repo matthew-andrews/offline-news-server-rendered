@@ -113,7 +113,7 @@
 
   function databaseStoriesGet() {
     return new Promise(function(resolve, reject) {
-      var transaction = db.transaction(['stories'], 'readwrite');
+      var transaction = db.transaction(['stories'], 'readonly');
       var store = transaction.objectStore('stories');
 
       var keyRange = IDBKeyRange.lowerBound(0);
@@ -138,7 +138,7 @@
 
   function databaseStoriesGetById(guid) {
     return new Promise(function(resolve, reject) {
-      var transaction = db.transaction(['stories'], 'readwrite');
+      var transaction = db.transaction(['stories'], 'readonly');
       var store = transaction.objectStore('stories');
       var request = store.get(guid);
       request.onsuccess = function(e) {
