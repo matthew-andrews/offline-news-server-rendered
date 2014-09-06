@@ -9,7 +9,7 @@ var templates = require('./public/templates');
 
 var app = express();
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Manifest returns a 400 unless the AppCache cookie is set
 app.get('/offline.appcache', function(req, res) {
