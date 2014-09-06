@@ -80,9 +80,6 @@ app.get('/', function(req, res) {
     });
 });
 
-app.listen(port);
-console.log('listening on '+port);
-
 function layoutShell(data) {
   data = {
     title: data && data.title || 'FT Tech News',
@@ -114,3 +111,6 @@ function layoutShell(data) {
     + '\n  </body>'
     + '\n</html>';
 }
+
+app.listen(port);
+console.log('listening on '+port);
