@@ -87,7 +87,7 @@
   function databaseOpen() {
     return new Promise(function(resolve, reject) {
       var version = 1;
-      var request = indexedDB.open('news-server-rendered', version);
+      var request = indexedDB.open('offline-news-server-rendered', version);
       request.onupgradeneeded = function(e) {
         db = e.target.result;
         e.target.transaction.onerror = reject;
